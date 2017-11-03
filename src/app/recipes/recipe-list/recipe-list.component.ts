@@ -8,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecipeListComponent implements OnInit {
   recipes: Recipe[] = [
-    new Recipe('Dummy recipe', 'This is just a dummy recipe',
-    'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg')
+    new Recipe('Dummy recipe', 'This is just a dummy recipe', 'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg'),
+    new Recipe('Dummy recipe', 'This is just a dummy recipe', 'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg')
   ];
 
   constructor() { }
