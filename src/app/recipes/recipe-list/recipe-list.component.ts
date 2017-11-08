@@ -1,20 +1,26 @@
-import { Recipe } from './../recipe.model';
-import { Component, OnInit } from '@angular/core';
+import {Recipe} from './../recipe.model';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-recipe-list',
-  templateUrl: './recipe-list.component.html',
-  styleUrls: ['./recipe-list.component.css']
+    selector: 'app-recipe-list',
+    templateUrl: './recipe-list.component.html',
+    styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
-  recipes: Recipe[] = [
-    new Recipe('Dummy recipe', 'This is just a dummy recipe', 'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg'),
-    new Recipe('Dummy recipe', 'This is just a dummy recipe', 'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg')
-  ];
+    @Output() recipeWasSelected = new EventEmitter<Recipe>();
 
-  constructor() { }
+    recipes: Recipe[] = [
+        new Recipe('Dummy recipe', 'This is just a dummy recipe', 'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg'),
+        new Recipe('Another Dummy recipe', 'This is just a dummy recipe', 'http://maxpixel.freegreatpicture.com/static/photo/1x/Chicken-Avocado-Heart-Salad-1735138.jpg')
+    ];
 
-  ngOnInit() {
-  }
+    constructor() {
+    }
 
+    ngOnInit() {
+    }
+
+    onRecipeSelected(recipe: Recipe) {
+        this.recipeWasSelected.emit(recipe);
+    }
 }
