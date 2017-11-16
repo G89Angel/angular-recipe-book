@@ -1,17 +1,14 @@
-import {ShoppingListService} from '../shopping-list/shopping-list.service';
-import {Recipe} from './recipe.model';
-import {EventEmitter, Injectable} from '@angular/core';
-import {Ingredient} from '../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { Recipe } from './recipe.model';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Ingredient } from '../shared/ingredient.model';
 
 @Injectable()
 export class RecipeService {
   recipeSelected = new EventEmitter<Recipe>();
-
-  constructor(private slService: ShoppingListService) {
-  }
-
   private recipes: Recipe[] = [
     new Recipe(
+        1,
         'Schnitzel',
         'This is just a german recipe',
         'https://c.pxhere.com/photos/ba/e4/sideburn_pig_baked_potato_salad_potatoes_green_salad_eat_food-895723.jpg!d',
@@ -20,6 +17,7 @@ export class RecipeService {
           new Ingredient('French Fries', 20)
         ]),
     new Recipe(
+        2,
         'Big Fat Burger',
         'What else you need to say?',
         'https://upload.wikimedia.org/wikipedia/commons/d/dc/Lounge_Burger_Wiki.jpg',
@@ -29,9 +27,16 @@ export class RecipeService {
         ])
   ];
 
+  constructor(private slService: ShoppingListService) {
+  }
+
   getRecipes() {
     // Slice to get a copy, not the object itself
     return this.recipes.slice();
+  }
+
+  getRecipe(id) {
+    return this.recipes.find(e => e.id === id);
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
