@@ -1,26 +1,24 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {Ingredient} from '../../shared/ingredient.model';
-import {ShoppingListService} from "../shopping-list.service";
+import { Component, OnInit } from '@angular/core';
+import { Ingredient } from '../../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
-    selector: 'app-shopping-edit',
-    templateUrl: './shopping-edit.component.html',
-    styleUrls: ['./shopping-edit.component.css']
+  selector: 'app-shopping-edit',
+  templateUrl: './shopping-edit.component.html',
+  styleUrls: ['./shopping-edit.component.css']
 })
 export class ShoppingEditComponent implements OnInit {
-    @ViewChild('nameInput') nameInputRef: ElementRef;
-    @ViewChild('amountInput') amountInputRef: ElementRef;
+  constructor(private slService: ShoppingListService) {
+  }
 
-    constructor(private slService: ShoppingListService) {
-    }
+  ngOnInit() {
+  }
 
-    ngOnInit() {
-    }
-
-    onAddIngredient() {
-        const ingredientName = this.nameInputRef.nativeElement.value;
-        const ingredientAmount = this.amountInputRef.nativeElement.value;
-        const newIngredient = new Ingredient(ingredientName, ingredientAmount);
-        this.slService.addIngredient(newIngredient);
-    }
+  onAddItem(form: NgForm) {
+    console.log(form);
+    const value = form.value;
+    const newIngredient = new Ingredient(value.name, value.amount);
+    this.slService.addIngredient(newIngredient);
+  }
 }
