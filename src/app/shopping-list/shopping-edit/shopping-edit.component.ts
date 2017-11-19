@@ -16,7 +16,6 @@ export class ShoppingEditComponent implements OnInit {
   }
 
   onAddItem(form: NgForm) {
-    console.log(form);
     const value = form.value;
     const newIngredient = new Ingredient(value.name, value.amount);
     this.slService.addIngredient(newIngredient);
