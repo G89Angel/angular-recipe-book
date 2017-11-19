@@ -1,6 +1,6 @@
-import {Recipe} from '../recipe.model';
-import {Component, OnInit} from '@angular/core';
-import {RecipeService} from '../recipe.service';
+import { Recipe } from '../recipe.model';
+import { Component, OnInit } from '@angular/core';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -14,6 +14,14 @@ export class RecipeListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.recipeService.recipeChanged
+        .subscribe((recipes: Recipe[]) => {
+          this.recipes = recipes;
+          console.log(this.recipes);
+
+        });
+
     this.recipes = this.recipeService.getRecipes();
+    console.log(this.recipes);
   }
 }
