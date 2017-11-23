@@ -4,9 +4,13 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthService {
-  token: string;
-
   constructor(private router: Router) {
+  }
+
+  private _token: string;
+
+  set token(value: string) {
+    this._token = value;
   }
 
   signupUser(email: string, password: string) {
@@ -31,19 +35,20 @@ export class AuthService {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         user.getIdToken().then((data) => {
-          this.token = data;
+          this._token = data;
         });
       }
     });
-    return this.token;
+    return this._token;
   }
 
   isAuthenticated() {
-    return this.token !== null;
+    return this._token != null;
   }
 
   logout() {
     firebase.auth().signOut();
-    this.token = null;
+    this._token = null;
+    this.router.navigate(['/']);
   }
 }

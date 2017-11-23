@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,16 +8,26 @@ import * as firebase from 'firebase';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    loadedFeature = 'recipe';
+  loadedFeature = 'recipe';
 
-    onNavigate(feature: string) {
-        this.loadedFeature = feature;
-    }
+  constructor(private authService: AuthService) {
+  }
 
-    ngOnInit() {
-      firebase.initializeApp({
-        apiKey: 'AIzaSyBQ4DR0rs_TV8wDfuBagwAVKEYwugW5ajI',
-        authDomain: 'ng-recipe-book-21151.firebaseapp.com'
-      });
-    }
+  onNavigate(feature: string) {
+    this.loadedFeature = feature;
+  }
+
+  ngOnInit() {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyBQ4DR0rs_TV8wDfuBagwAVKEYwugW5ajI',
+      authDomain: 'ng-recipe-book-21151.firebaseapp.com'
+    });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        user.getIdToken().then(
+            (token: string) => this.authService.token = token
+        );
+      }
+    });
+  }
 }
