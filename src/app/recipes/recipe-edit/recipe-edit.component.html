@@ -51,14 +51,14 @@
                         <div class="col-xs-12">
                             <h4 class="text-nowrap">Ingredients
                                 <button type="button" class="btn btn-default"
-                                (click)="onAddIngredient()">
+                                        (click)="onAddIngredient()">
                                     <i class="glyphicon glyphicon-plus-sign"></i> Add ingredient
                                 </button>
                             </h4>
                         </div>
                     </div>
                     <div class="row"
-                         *ngFor="let ingredientControl of recipeForm.get('ingredients').controls; let i = index"
+                         *ngFor="let ingredientControl of getControls(); let i = index"
                          [formGroupName]="i">
                         <div class="col-xs-8 form-group">
                             <input type="text" class="form-control" formControlName="name">
