@@ -38,21 +38,6 @@ export class RecipeService {
     return this.recipes.find(e => e.id === id);
   }
 
-  addRecipe(recipe: Recipe) {
-    this.recipes.push(recipe);
-    this.recipeChanged.next(this.recipes.slice());
-  }
-
-  updateRecipe(newRecipe: Recipe) {
-    this.recipes[this.recipes.findIndex(o => o.id === newRecipe.id)] = newRecipe;
-    this.recipeChanged.next(this.recipes.slice());
-  }
-
-  deleteRecipe(id: number) {
-    this.recipes.splice(this.recipes.findIndex(o => o.id === id), 1);
-    this.recipeChanged.next(this.recipes.slice());
-  }
-
   setRecipes(recipes: Recipe[]) {
     this.recipes = recipes;
     this.recipeChanged.next(this.recipes.slice());
