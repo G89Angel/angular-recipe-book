@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Recipe } from '../recipe.model';
 import * as RecipeActions from '../store/recipe.actions';
 import * as fromRecipe from '../store/recipe.reducers';
 import { Store } from '@ngrx/store';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -18,7 +18,7 @@ export class RecipeEditComponent implements OnInit {
   recipe: Recipe;
   recipeForm: FormGroup;
 
-  constructor(private recipeService: RecipeService, private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private router: Router,
               private store: Store<fromRecipe.FeatureState>) {
   }
@@ -48,23 +48,27 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit() {
-    const newRecipe = new Recipe(
-        this.recipeService.getRecipes().length + 1,
-        this.recipeForm.value['name'],
-        this.recipeForm.value['description'],
-        this.recipeForm.value['imagePath'],
-        this.recipeForm.value['ingredients']
-    );
-    if (this.editMode) {
-      newRecipe.id = this.id;
-      // this.recipeService.updateRecipe((<Recipe>{ id: this.id, ...this.recipeForm.value }));
-      this.store.dispatch(new RecipeActions.UpdateRecipe({ index: this.id, updatedRecipe: newRecipe }));
-    } else {
-      // this.recipeService.addRecipe((<Recipe>{ id: this.recipeService.getRecipes().length + 1, ...this.recipeForm.value }));
-      this.store.dispatch(new RecipeActions.AddRecipe(newRecipe));
-    }
+    this.store.select('recipes')
+        .take(1)
+        .subscribe((recipeState: fromRecipe.State) => {
+          const newRecipe = new Recipe(
+              recipeState.recipes.length + 1,
+              this.recipeForm.value['name'],
+              this.recipeForm.value['description'],
+              this.recipeForm.value['imagePath'],
+              this.recipeForm.value['ingredients']
+          );
+          if (this.editMode) {
+            newRecipe.id = this.id;
+            // this.recipeService.updateRecipe((<Recipe>{ id: this.id, ...this.recipeForm.value }));
+            this.store.dispatch(new RecipeActions.UpdateRecipe({ index: this.id, updatedRecipe: newRecipe }));
+          } else {
+            // this.recipeService.addRecipe((<Recipe>{ id: this.recipeService.getRecipes().length + 1, ...this.recipeForm.value }));
+            this.store.dispatch(new RecipeActions.AddRecipe(newRecipe));
+          }
 
-    this.onCancel();
+          this.onCancel();
+        });
   }
 
   onCancel() {
