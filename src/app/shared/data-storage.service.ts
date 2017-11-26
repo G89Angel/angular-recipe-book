@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import 'rxjs/add/operator/map';
-import { AuthService } from '../auth/auth.service';
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 
 @Injectable()
 export class DataStorageService {
   baseUrl = 'https://ng-recipe-book-21151.firebaseio.com/';
 
-  constructor(private httpClient: HttpClient, private recipeService: RecipeService,
-              private authService: AuthService) {
+  constructor(private httpClient: HttpClient, private recipeService: RecipeService) {
   }
 
   storeRecipes() {
